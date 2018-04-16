@@ -1,0 +1,25 @@
+{% include "main.html" %}
+<title></title>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <div class="container content">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 style="text-align: center;">Search displayed for {{searchT}}</h1>
+            </div>
+        </div>
+        {% for i in file %}
+        <div class="row">
+            <div class="col-md-6 myWell">
+                <a href="{{url_for('access_file',filename=i.File.name)}}">
+                    <div class="row">
+                        <div class="col-md-12">{{ i.File.name }}</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>

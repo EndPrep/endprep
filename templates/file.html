@@ -1,0 +1,131 @@
+{% include "main.html" %}
+<title>Comments</title>
+</head>
+
+<body>
+	{% include "header.html" %}
+	<div class="container content">
+		<div class="row">
+			<div class="col-md-6">
+				<h1>{{fdata.name}}</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<h3>{{fdata.file_name}}</h3>
+				<hr>
+				<h4>Topics Covered: </h4>
+				<h5>
+					{% for topic in topics %} {{topic.title}}, {% endfor %}
+				</h5>
+			</div>
+			
+			<div class="col-md-6">
+				<a href="{{url_for('uploaded_file',filename=fdata.file_name)}}">
+					<button class="btn btn-primary" type="submit" style="width: 162px;">
+						<span style="padding: 10px;">Download </span>
+						<span class="glyphicon glyphicon-download-alt"></span>
+					</button>
+				</a>
+			</div>
+			<div class="col-md-6 placeholder">
+				<div style="margin-top:10px;color: #fff;">Click on link to copy</div>
+				<input type="text" id="link" onfocus="myFunction()" style="margin: 10px 10px 10px 0;">
+				<div id="hello" style="color: #fff;">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<button class="btn btn-warning" id="btnbtn" onclick=like()>
+					<i class="glyphicon glyphicon-star" id="star"> Star({{fdata.rating}})</i>
+				</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<h2>Comments</h2>
+			</div>
+		</div>
+		<form method="post" action="{{url_for('access_file', filename=fdata.name)}}">
+			<div class="row">
+				<div class="col-md-8 placeholder">
+					<textarea rows="6" cols="50" name="comment" placeholder="Add Comment..."></textarea>
+				</div>
+			</div>
+			<input type="submit" class="btn btn-success" value="Submit">
+		</form>
+		<br>
+		<br>
+		<div class="row">
+			{% for comment in comments %}
+			<div class="col-md-8 placeholder" style="margin-bottom: 15px;background: white;">
+				<b>
+					<i>{{comment.User.name}}</i>
+				</b>
+				<br>
+				<i>{{comment.User.email}}</i>
+				<hr>
+				<p style="word-wrap: break-word;">{{comment.Comment.data}}</p>
+				<i>Time: {{comment.Comment.time[:19]}}</i>&ensp;&ensp;&ensp;&ensp;
+				<a class="placeholder" href="{{url_for('deleteComment',id = comment.Comment.id)}}">
+					<button class="glyphicon glyphicon-trash"></button>
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<script>
+		$(function(){
+			document.getElementById('btnbtn').value = 'star';
+		})
+		function like() {
+			var btn = document.getElementById('btnbtn');
+			if(btn.value=='star') {
+				$.ajax({
+					method: 'PUT',
+					url: "{{ url_for('like', filename = filename) }}",
+					success: (response) => {
+						btn.value = 'unstar';
+						$('#star').text(` Unstar(${response})`);
+						btn.style.backgroundColor = '#fff';
+						btn.style.color = '#f0ad4e';
+						btn.style.borderColor = '#fff';
+						console.log("{{filename}}");
+						console.log(response);
+					}
+				});
+			}
+			else {
+				$.ajax({
+					method: 'DELETE',
+					url: "{{ url_for('like', filename = filename) }}",
+					success: (response) => {
+						btn.value = 'star';
+						$('#star').text(` Star(${response})`);
+						btn.style.backgroundColor = '#f0ad4e';
+						btn.style.color = '#fff';
+						btn.style.borderColor = '#f0ad4e';
+						console.log("{{filename}}");
+						console.log(response);
+					}
+				});
+			}
+		}
+		var text = document.getElementById('link');
+		var link = '';
+		const dn = location.host;
+		link += dn;
+		link += "{{url_for('uploaded_file',filename=fdata.file_name)}}"
+		text.value = link;
+		function myFunction() {
+			text.select();
+			document.execCommand("Copy");
+			document.getElementById("hello").innerText = "Link Copied!!";
+			text.blur();
+
+		}
+	</script>
+</body>
+
+</html>

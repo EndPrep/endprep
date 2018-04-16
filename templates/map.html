@@ -1,0 +1,179 @@
+{% include "main.html" %}
+<title>Book Stores</title>
+<style>
+    #map {
+        position: relative;
+        height: 500px;
+        width: 100%;
+        color: #000000;
+    }
+</style>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <div class="container content">
+        <div class="row">
+            <div class="myWell col-md-8">
+                <h2>Your Nearest Bookstores</h2>
+                <div id="map">
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvkzh-9OxlVqsQrxRhcvsmFjx6hr3QC8c&libraries=geometry&v=3&callback=initMap">
+        </script>
+        <script>
+            var foursquare_client_id = "3VU3JPF4MALSI0PRWMV1VEVPWXO0HXACAEJDDNSB5GDHH0ZG";
+            var foursquare_client_secret = "YSBYZX0VSOEQO45P2D0MDM5OHKDFWKGSBUZ0JJXDK4S2W0AZ";
+            var short, searchLocation, posMarker, last, lastInfoWindow, bouncingMarker;
+            function errorCallbackMap() {
+                $("#map").text("Sorry Google Maps API can't be loaded");
+            }
+
+
+            /***********************************************************/
+            /* Creating data in JSON format by using google places API */
+            /************************************************************/
+
+            function createJSON() {
+                results = [];
+                markers = [];
+                var apiKey = 'AIzaSyCvkzh-9OxlVqsQrxRhcvsmFjx6hr3QC8c';
+                var foursquareURL = `https://api.foursquare.com/v2/venues/explore?range=1000&ll=30.7333148,76.7794179&client_id=${foursquare_client_id}&client_secret=${foursquare_client_secret}&v=20170801&query=bookstore`;
+                $.ajax({
+                    method: 'GET',
+                    url: foursquareURL,
+                    dataType: 'json',
+                    success: function (data) {
+                        results = data.response.groups[0].items;
+                    }
+                });
+                foursquareURL = `https://api.foursquare.com/v2/venues/explore?range=1000&ll=30.7333148,76.7794179&client_id=${foursquare_client_id}&client_secret=${foursquare_client_secret}&v=20170801&query=library`;
+                $.ajax({
+                    method: 'GET',
+                    url: foursquareURL,
+                    dataType: 'json',
+                    success: function (data) {
+                        results.concat(data.response.groups[0].items);
+                        createMarkers(results, 1);
+                    }
+                });
+            }
+
+            /********************/
+            /* Creating markers */
+            /********************/
+
+            function createMarkers(results, allow) {
+                markers = [];
+                placeId = [];
+                var largeInfoWindow = new google.maps.InfoWindow();
+                var bounds = new google.maps.LatLngBounds();
+                for (var i = 0; i < results.length; i++) {
+                    item = results[i].venue;
+                    var position = {
+                        lat: item.location.lat,
+                        lng: item.location.lng
+                    };
+                    var title = item.name;
+                    var address = item.location.formattedAddress[0];
+                    // console.log(position);
+                    // console.log(title);
+                    // console.log(address);
+                    var marker = new google.maps.Marker({
+                        id: results[i].id,
+                        position: position,
+                        title: title,
+                        address: address,
+                        animation: google.maps.Animation.DROP,
+                    });
+
+                    markers.push(marker);
+                    markersProperties(marker, largeInfoWindow);
+                    if (markers.length)
+                        bounds.extend(markers[i].position);
+                }
+            }
+
+            /********************/
+            /* Initializing map */
+            /********************/
+
+            function initMap() {
+                var defaultLocation = {
+                    lat: 30.7333148,
+                    lng: 76.7794179
+                };
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: defaultLocation,
+                    zoom: 13
+                });
+                var largeInfoWindow = new google.maps.InfoWindow();
+                var bounds = new google.maps.LatLngBounds();
+                createJSON();
+                showMarkers();
+            }
+
+
+            function markersProperties(marker, largeInfoWindow) {
+                marker.addListener('click', function () { populateInfoWindow(this, largeInfoWindow); });
+                marker.addListener('click', function () { toggleBounce(this); });
+                showMarkers();
+            }
+
+
+
+
+            /**********************************************/
+            /* Displaying markers for specific categories */
+            /**********************************************/
+
+            function showMarkers() {
+                var bounds = new google.maps.LatLngBounds();
+                if (markers.length) {
+                    for (var i = 0; i < markers.length; i++) {
+                        markers[i].setMap(map);
+                        bounds.extend(markers[i].position);
+                    }
+                    map.fitBounds(bounds);
+                }
+
+            }
+
+            /***************************************************/
+            /* Bounce animation on the markers on click events */
+            /***************************************************/
+
+            function toggleBounce(marker) {
+                if (last) last.setAnimation(null);
+                if (marker.getAnimation() !== null) {
+                    marker.setAnimation(null);
+                } else {
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                }
+                last = marker;
+            }
+
+            /***************************************************/
+            /*  Populating info-window with the location's     */
+            /* information acquired from the Google Places API */
+            /***************************************************/
+
+            function populateInfoWindow(marker, infoWindow) {
+                if (lastInfoWindow) lastInfoWindow.close();
+                if (infoWindow.marker != marker) {
+                    infoWindow.marker = marker;
+                    infoWindow.setContent(`<div><h6>${marker.title}</h6></div><div style="max-width:150px;"><strong>Address:</strong>${marker.address}</div>`);
+                    infoWindow.open(map, marker);
+                    infoWindow.addListener('closeclick', function () {
+                        infoWindow.setMarker = null;
+                    });
+                }
+                lastInfoWindow = infoWindow;
+            }
+        </script>
+</body>
+
+</html>

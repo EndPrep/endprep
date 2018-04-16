@@ -1,0 +1,107 @@
+{% include "main.html" %}
+<title>Login</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+</script>
+<link href="../static/jquery.js">
+<script src="//apis.google.com/js/platform.js?onload=start"></script>
+<style>
+  .abc {
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    height: 80vh;
+    width: 300px;
+    font-size: 25px;
+    background-color: #242222;
+  }
+
+  .content {
+    padding: 4% 0 0 0;
+  }
+  .abc:hover {
+    box-shadow: 0 0 10px 5px #fff;
+    transition: box-shadow .2s ease;
+  }
+
+  .xyz {
+    margin-top: 90px;
+  }
+</style>
+</head>
+
+<body>
+
+
+  <div class="container content">
+    <div class="row abc">
+      <img src="http://www.itespresso.de/wp-content/uploads/2016/06/Facebook-1024.jpg" alt="facebook" height="250px" width="250px"
+        align="center">
+      <div class="col-md-12 center-block xyz">
+        Sign with your Facebook Account!
+      </div>
+      <div class="col-md-12 center">
+        <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+          <a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+        </fb:login-button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 center-block xyz">
+        <div id="result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!--FACEBOOK SIGN IN -->
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '1744882785574298',
+        cookie: true, // enable cookies to allow the server to access 
+        // the session
+        xfbml: true, // parse social plugins on this page
+        version: 'v2.11' // use version 2.2
+      });
+    };
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function sendTokenToServer() {
+      var access_token = FB.getAuthResponse()['accessToken'];
+      console.log(access_token)
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function (response) {
+        console.log('Successful login for: ' + response.name);
+        $.ajax({
+          type: 'POST',
+          url: '/fbconnect?state={{STATE}}',
+          processData: false,
+          data: access_token,
+          contentType: 'application/octet-stream; charset=utf-8',
+          success: function (result) {
+            // Handle or verify the server response if necessary.
+            if (result) {
+              $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+              setTimeout(function () {
+                window.location.href = "/";
+              }, 4000);
+            } else {
+              $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+            }
+          }
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

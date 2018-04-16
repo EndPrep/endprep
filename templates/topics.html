@@ -1,0 +1,34 @@
+{% include "main.html" %}
+<title></title>
+</head>
+<body>
+	{% include "header.html" %}
+	<div class="container content">
+		<div class="row">
+			<div class="col-md-6">
+				<h1 style="word-wrap: break-word;text-align: center">{{subject}}</h1>
+			</div>
+			<div class="col-md-6">
+				<a href="{{url_for('upload',subject=subject)}}">
+					<button class="btn btn-lg myButton">Upload Doc
+						<span class="glyphicon glyphicon-plus plusbtn" aria-hidden="true"></span>
+					</button>
+				</a>
+			</div>
+		</div>
+		{% for i in tpc %}
+		<div class="row">
+			<a style="word-wrap: break-word;" href="{{url_for('files',subject=subject,chapter=i.title)}}">
+				<div class="myWell col-md-8">
+					<div class="row">
+						<div class="col-md-12">
+							<h2>{{loop.index}}. {{ i.title }}</h2>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+		{% endfor %}
+	</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% include "main.html" %}
+<title></title>
+</head>
+<body>
+	{% include "header.html" %}
+	<div class="container content">
+		<div class="row">
+			<div class="col-md-6">
+				<h1 style="text-align: center;">{{chapter}}</h1>
+			</div>
+		</div>
+		{% for i in docfiles %}
+		<div class="row">
+			<a href="{{url_for('access_file',filename=i.name)}}">
+				<div class="col-md-8 myWell">
+					<div class="row">
+						<div class="col-md-8">
+							<h3>{{i.name}}</h3>
+						</div>
+						<div class="col-md-4">
+							{% if i.file_name.split('.')[1] == 'pptx' %}
+							<img src="{{url_for('static',filename='images/ppt.png')}}" height="100px" width="100px">
+							{%endif%}
+							{% if i.file_name.split('.')[1] == 'pdf' %}
+							<img src="{{url_for('static',filename='images/PDF.jpg')}}" height="100px" width="100px">
+							{%endif%}
+							{% if i.file_name.split('.')[1] == 'docx' %}
+							<img src="{{url_for('static',filename='images/doc.png')}}" height="100px" width="100px">
+							{%endif%}
+							{% if i.file_name.split('.')[1] == 'xls' %}
+							<img src="{{url_for('static',filename='images/excel.png')}}" height="100px" width="100px">
+							{%endif%}
+							{% if i.file_name.split('.')[1] == 'png' %}
+							<img src="{{url_for('static',filename='images/image.png')}}" height="100px" width="100px">
+							{%endif%}
+							{% if i.file_name.split('.')[1] == 'jpg' %}
+							<img src="{{url_for('static',filename='images/image.png')}}" height="100px" width="100px">
+							{%endif%}
+{% if i.file_name.split('.')[1] == 'txt' %}
+<img src="{{url_for('static',filename='images/doc.png')}}" height="100px" width="100px">
+{% endif %}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<a href="#">
+								<span class="btn btn-success submitBtn">Edit</span>
+							</a>
+						</div>
+						<div class="col-md-4">
+							<a href="#">
+								<span class="btn btn-danger submitBtn">Delete</span>
+							</a>
+						</div>	
+					</div>
+				</div>
+			</a>
+		</div>
+		{% endfor %}
+	</div>
+</body>
+

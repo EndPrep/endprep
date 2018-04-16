@@ -1,0 +1,60 @@
+{% include "main.html" %}
+<title>Upload File</title>
+</head>
+<body>
+    {% include "header.html" %}
+
+    <div class="container content">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Upload new File</h1>
+            </div>
+        </div>
+        <div class="row form">
+            <form method=post action="{{url_for('upload',subject=subject)}}" enctype=multipart/form-data>
+                <div class="row formI">
+                    <div class="col-md-12">
+			<input type="file" style="word-wrap: break-word;" size="calc(100%-30px)" name=file multiple>
+                    </div>
+                </div>
+                <div class="row formI">
+                    <div class="col-md-3">
+                        <label>File name </label>
+                    </div>
+                    <div class="col-md-9 placeholder">
+                        <input  size="calc(100%-30px)" type="text" name="filename" placeholder="Enter File Name">
+                    </div>
+                </div>
+                <div class="row formI">
+                    <div class="col-md-3">
+                        <label>Chapter</label>
+                    </div>
+                    <div class="col-md-9 placeholder">
+			<select name="chapter"  style="break-word:word-wrap; width:calc(100%-30px)">
+                            {% for chapter in chapters%}
+                            <option style="break-word:word-wrap; width: calc(100%-30px)" value="{{chapter.title}}">{{chapter.title}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row formI">
+                    <div class="col-md-3">
+                        <label>Topics Covered</label>
+                    </div>
+                    <div class="col-md-9 placeholder">
+                        <input  type="text" size="calc(100%-30px)" name="keywords" placeholder="Enter Topics"><span class="row" style="font-size:15px;color:#fff">If more than one topic separate using commas. Example: 'pointers,polymorphism'</span>
+                    </div>
+                </div>
+                <br>
+                <div class="row formI">
+                    <div class="col-md-12">
+                        <input type=submit class="btn btn-primary submitBtn" value=Upload>
+                        <a href="{{url_for('homeHandler')}}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
