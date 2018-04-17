@@ -1,5 +1,6 @@
 {% include "main.html" %}
 <title>End Prep</title>
+
 </head>
 
 <body>
@@ -22,19 +23,31 @@
 				<h3 style="text-align: center;">LeaderBoard</h3>
 			</div>
 			<div class="col-md-10" style="border: 1px solid white">
-				<h4>
+					<marquee>
 					{% for user in users %}
-						{{user.name}}
 						{% if user.picture %}
 							<img src="{{user.picture}}" width="50" height="50">
 						{% else %}
 							<img src="https://openclipart.org/image/2400px/svg_to_png/211821/matt-icons_preferences-desktop-personal.png" width="50" height="50">
 						{% endif %}
-						&ensp;&ensp;
+						<span style="overflow:hidden">{{user.name}}</span>
 					{% endfor %}
-				</h4>
+					</marquee>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-10" style="border: 1px solid white">
+					<h2 style="text-align:center">Those end moment preparations, for us hardworking students :D</h2>
+					<h5>This Website is a fully dynamic Website.</h5>
+					<h5>Notes or content is uploaded firstly subject wise then chapter wise.</h5>
+					<h5>There is a search bar in which you can search the topic name and the notes related to that topic will be shown.</h5>
+					<h5>For uploading a file or downloading or like/comment on someone's file/files you need to login first using Facebook.</h5>
+					<h4 style="text-align:center"><i>Happy Learning!!!</i></h4>
+				</ul>
+			</div>
+		</div>		
+
+
 		<div class="row">
 			<a href="{{url_for('topics',subject=subjects[0].name)}}">
 				<div class="col-md-5 myWell">

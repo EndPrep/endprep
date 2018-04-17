@@ -58,6 +58,7 @@
                     success: function (data) {
                         results.concat(data.response.groups[0].items);
                         createMarkers(results, 1);
+			showMarkers();
                     }
                 });
             }
@@ -113,14 +114,12 @@
                 var largeInfoWindow = new google.maps.InfoWindow();
                 var bounds = new google.maps.LatLngBounds();
                 createJSON();
-                showMarkers();
             }
 
 
             function markersProperties(marker, largeInfoWindow) {
                 marker.addListener('click', function () { populateInfoWindow(this, largeInfoWindow); });
                 marker.addListener('click', function () { toggleBounce(this); });
-                showMarkers();
             }
 
 
