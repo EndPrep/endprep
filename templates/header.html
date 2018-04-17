@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="margin:0;">
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-12">
@@ -9,19 +9,19 @@
             <div class="col-md-12">
                 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header left-p">
-                       	<a href="{{url_for('homeHandler')}}">
+                    <a href="{{url_for('homeHandler')}}">
+                        <div class="navbar-header left-p">
                             <img alt="Brand" class="avatar" src="{{url_for('static',filename='images/book.jpg')}}">
-                        </a>
-			    <button aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse"
-                            type="button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">End Prep</a>
-                    </div>
+                            <a href="{{url_for('homeHandler')}}" class="navbar-brand">End Prep</a>
+                            <button aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse"
+                                type="button">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                    </a>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right right-p">
@@ -70,7 +70,7 @@
 </div>
 
 {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
-<div class="row">
+<div class="row" style="margin: 0;">
     <div class="col-md-12">
         <div class='flash navbar navbar-default navbar-fixed-bottom navbar-inverse flashM'>
             <div class="navbar-header left-p">

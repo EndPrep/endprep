@@ -36,9 +36,9 @@
 							{% if i.file_name.split('.')[1] == 'jpg' %}
 							<img src="{{url_for('static',filename='images/image.png')}}" height="100px" width="100px">
 							{%endif%}
-{% if i.file_name.split('.')[1] == 'txt' %}
-<img src="{{url_for('static',filename='images/doc.png')}}" height="100px" width="100px">
-{% endif %}
+							{% if i.file_name.split('.')[1] == 'txt' %}
+							<img src="{{url_for('static',filename='images/doc.png')}}" height="100px" width="100px">
+							{% endif %}
 						</div>
 					</div>
 					<div class="row">
