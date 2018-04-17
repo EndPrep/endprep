@@ -150,6 +150,14 @@ a:hover {
     .side {
         display: none;
     }
+    .content {
+        margin: 0;
+        padding: 4% 6% 0 6%;
+        width: 100%;
+    }
+    .left-p {
+        padding-left: 0;
+    }
 }
 
 /*taken from w3 schools*/

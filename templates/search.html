@@ -12,13 +12,50 @@
         </div>
         {% for i in file %}
         <div class="row">
-            <div class="col-md-6 myWell">
-                <a href="{{url_for('access_file',filename=i.File.name)}}">
+            <a href="{{url_for('access_file',filename=i.File.name)}}">
+                <div class="col-md-8 myWell">
                     <div class="row">
-                        <div class="col-md-12">{{ i.File.name }}</div>
+                        <div class="col-md-8">
+                            <h3>{{ i.File.name }}</h3>
+                        </div>
                     </div>
-                </a>
-            </div>
+                    <div class="col-md-4">
+                        {% if i.File.file_name.split('.')[1] == 'pptx' %}
+                        <img src="{{url_for('static',filename='images/ppt.png')}}" height="100px" width="100px"> 
+                        {%endif%} 
+                        {% if i.File.file_name.split('.')[1] == 'pdf' %}
+                        <img src="{{url_for('static',filename='images/PDF.jpg')}}" height="100px" width="100px"> 
+                        {%endif%} 
+                        {% if i.File.file_name.split('.')[1] == 'docx' %}
+                        <img src="{{url_for('static',filename='images/doc.png')}}" height="100px" width="100px"> 
+                        {%endif%} 
+                        {% if i.File.file_name.split('.')[1] == 'xls' %}
+                        <img src="{{url_for('static',filename='images/excel.png')}}" height="100px" width="100px"> 
+                        {%endif%} 
+                        {% if i.File.file_name.split('.')[1] == 'png' %}
+                        <img src="{{url_for('static',filename='images/image.png')}}" height="100px" width="100px"> 
+                        {%endif%} 
+                        {% if i.File.file_name.split('.')[1] == 'jpg' %}
+                        <img src="{{url_for('static',filename='images/image.png')}}" height="100px" width="100px"> 
+                        {%endif%} 
+                        {% if i.File.file_name.split('.')[1] == 'txt' %}
+                        <img src="{{url_for('static',filename='images/doc.png')}}" height="100px" width="100px"> 
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="#">
+                                <span class="btn btn-success submitBtn">Edit</span>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#">
+                                <span class="btn btn-danger submitBtn">Delete</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
         {% endfor %}
     </div>

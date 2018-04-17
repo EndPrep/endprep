@@ -8,15 +8,12 @@
 		<div class="row">
 			<div class="col-md-10">
 				<form action="{{url_for('search')}}">
-
-				<div class="input-group">
-					
-					<input type="text" name="search" class="form-control input-lg" placeholder="Search....." aria-describedby="basic-addon2">
-					<span class="input-group-addon" id="basic-addon2">
-						<i class="glyphicon glyphicon-search"></i>
-					</span>
-					<input type="submit" style="display:none;">
-				</div>
+					<div class="input-group">
+						<input type="text" name="search" class="form-control"  placeholder="Search any topic here....(For e.g. pointer, class, sonet)" aria-describedby="basic-addon2">
+						<span class="input-group-btn">
+							<input class="btn btn-default" type="submit" value="Search!">
+						</span>
+					</div>
 				</form>
 			</div>
 		</div>
