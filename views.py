@@ -23,7 +23,8 @@ sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
 
-UPLOAD_FOLDER = '/var/www/catalog/static/upload'
+# UPLOAD_FOLDER = '/var/www/catalog/static/upload'
+UPLOAD_FOLDER = 'static/upload'
 
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg',
@@ -63,16 +64,12 @@ def homeHandler():
 # single article handler
 @app.route('/<string:subject>/chapter')
 def topics(subject):
-    if 'username' not in login_session:
-       return redirect(url_for('login'))
     tpc = session.query(Chapter).filter_by(subject_name=subject).all()
     return render_template('topics.html', subject=subject, tpc=tpc, subjects=subjects)
 
 
 @app.route('/<string:subject>/<string:chapter>/topics')
 def files(subject, chapter):
-    if 'username' not in login_session:
-        return redirect('login')
     chapter1 = session.query(Chapter).filter_by(title=chapter).one()
     docfiles = session.query(File).filter_by(chapter_id=chapter1.id).all()
     return render_template('doclist.html', subject=subject, chapter=chapter, docfiles=docfiles, subjects=subjects)

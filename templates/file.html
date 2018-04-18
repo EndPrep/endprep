@@ -37,7 +37,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-3">
-				<button class="btn btn-warning" id="btnbtn" onclick=like()>
+				<button class="btn btn-warning" id="btnbtn">
 					<i class="glyphicon glyphicon-star" id="star"> Star({{fdata.rating}})</i>
 				</button>
 			</div>
@@ -78,9 +78,12 @@
 	<script>
 		$(function(){
 			document.getElementById('btnbtn').value = 'star';
+			$('#btnbtn').on('click',like);
 		})
 		function like() {
 			var btn = document.getElementById('btnbtn');
+			that = $('#btnbtn');
+			that.off('click');
 			if(btn.value=='star') {
 				$.ajax({
 					method: 'PUT',
@@ -91,9 +94,9 @@
 						btn.style.backgroundColor = '#fff';
 						btn.style.color = '#f0ad4e';
 						btn.style.borderColor = '#fff';
-						console.log("{{filename}}");
-						console.log(response);
 					}
+				}).done(()=>{
+					that.on('click',like);
 				});
 			}
 			else {
@@ -106,9 +109,9 @@
 						btn.style.backgroundColor = '#f0ad4e';
 						btn.style.color = '#fff';
 						btn.style.borderColor = '#f0ad4e';
-						console.log("{{filename}}");
-						console.log(response);
 					}
+				}).done(()=>{
+					that.on('click',like);
 				});
 			}
 		}
