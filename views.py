@@ -220,21 +220,22 @@ def uploaded_file(filename):
 
 @app.route('/accessfile/<string:filename>', methods=['GET', 'POST'])
 def access_file(filename):
-    if 'username' not in login_session:
-        return redirect(url_for('login'))
     fdata = session.query(File).filter_by(name=filename).one()
     if request.method == 'POST':
-        text = request.form['comment']
-        commentData = Comment(data=text, time=str(
-            datetime.datetime.now()), user_id=login_session['user_id'], file_id=fdata.id)
-        session.add(commentData)
-        session.commit()
-        return redirect(url_for('access_file', filename=filename))
+        if 'username' not in login_session:
+            return redirect(url_for('login'))
+        else:
+            text = request.form['comment']
+            commentData = Comment(data=text, time=str(
+                datetime.datetime.now()), user_id=login_session['user_id'], file_id=fdata.id)
+            session.add(commentData)
+            session.commit()
+            return redirect(url_for('access_file', filename=filename,login_session=login_session))
     else:
         topics = session.query(Topic).filter_by(file_id=fdata.id).all()
         comments = session.query(Comment, User).filter(
             Comment.user_id == User.id).filter_by(file_id=fdata.id).all()
-        return render_template('file.html', subjects=subjects, topics=topics, filename=filename, fdata=fdata, comments=comments)
+        return render_template('file.html', subjects=subjects, topics=topics, filename=filename, fdata=fdata, comments=comments, login_session=login_session)
 
 
 @app.route('/<string:subject>/upload', methods=['GET', 'POST'])
@@ -310,6 +311,8 @@ def deleteComment(id):
 
 @app.route('/<string:filename>/like', methods=['PUT','DELETE'])
 def like(filename):
+    if 'username' not in login_session:
+        return url_for('login')
     file = session.query(File).filter_by(name=filename).one()
     owner = session.query(User).filter_by(id=file.user_id).one()
     if request.method == 'DELETE':

@@ -12,12 +12,12 @@
 		{% for i in docfiles %}
 		<div class="row">
 			<a href="{{url_for('access_file',filename=i.name)}}">
-				<div class="col-md-8 myWell">
+				<div class="col-sm-8 myWell">
 					<div class="row">
-						<div class="col-md-8">
+						<div class="col-xs-8">
 							<h3>{{i.name}}</h3>
 						</div>
-						<div class="col-md-4">
+						<div class="col-xs-4">
 							{% if i.file_name.split('.')[1] == 'pptx' %}
 							<img src="{{url_for('static',filename='images/ppt.png')}}" height="100px" width="100px">
 							{%endif%}
@@ -42,12 +42,12 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-xs-4">
 							<a href="#">
 								<span class="btn btn-success submitBtn">Edit</span>
 							</a>
 						</div>
-						<div class="col-md-4">
+						<div class="col-xs-4">
 							<a href="#">
 								<span class="btn btn-danger submitBtn">Delete</span>
 							</a>
