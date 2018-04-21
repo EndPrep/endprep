@@ -23,8 +23,8 @@ sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
 
-# UPLOAD_FOLDER = '/var/www/catalog/static/upload'
-UPLOAD_FOLDER = 'static/upload'
+UPLOAD_FOLDER = '/var/www/catalog/static/upload'
+# UPLOAD_FOLDER = 'static/upload'
 
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg',
