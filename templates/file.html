@@ -53,7 +53,7 @@
 					<textarea rows="6" cols="50" name="comment" placeholder="Add Comment..."></textarea>
 				</div>
 			</div>
-			<input type="submit" id="comment-btn" class="btn btn-success" value="Submit">
+			<input type="submit" class="btn btn-success" value="Submit">
 		</form>
 		<br>
 		<br>
@@ -76,12 +76,6 @@
 		</div>
 	</div>
 	<script>
-		"{% if 'username' not in login_session %}"
-			$('#comment-btn').click(function(){
-				$(this).val('Comment (You have to login first!)');
-				return false;
-			});
-		"{% endif %}"
 		$(function(){
 			document.getElementById('btnbtn').value = 'star';
 			$('#btnbtn').on('click',like);
@@ -96,10 +90,6 @@
 					url: "{{ url_for('like', filename = filename) }}",
 					success: (response) => {
 						btn.value = 'unstar';
-						if (response == '/login') {
-							window.location.replace(response);
-							return false;
-						}
 						$('#star').text(` Unstar(${response})`);
 						btn.style.backgroundColor = '#fff';
 						btn.style.color = '#f0ad4e';
@@ -115,10 +105,6 @@
 					url: "{{ url_for('like', filename = filename) }}",
 					success: (response) => {
 						btn.value = 'star';
-						if(response=='/login'){
-							window.location.replace(response);
-							return false;
-						}
 						$('#star').text(` Star(${response})`);
 						btn.style.backgroundColor = '#f0ad4e';
 						btn.style.color = '#fff';
